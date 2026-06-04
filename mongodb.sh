@@ -2,7 +2,7 @@
 
 USERID=$(id -u)
 
-if [ $USERID -ne 0]; then
+if [ $USERID -ne 0 ]; then
     echo "Please run the script with root user" | tee -a $LOG_FILE
     exit 1
     
@@ -23,7 +23,7 @@ else
 fi
 }
 
-cp mongodb-repo.sh /etc/yum.repos.d/mongo.repo
+cp mongo-repo /etc/yum.repos.d/mongo.repo
 validate $? "Mongodb repo copy"
 
 dnf install mongodb-org -y 
