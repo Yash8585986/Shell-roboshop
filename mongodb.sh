@@ -27,14 +27,17 @@ fi
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 validate $? "Mongodb repo copy"
 
-dnf install mongodb-org -y 
+dnf install mongodb-org -y &>> $LOG_FILE
 validate $? "Mongodb installation"
 
-systemctl enable mongod 
+systemctl enable mongod &>> $LOG_FILE
 validate $? "Mongodb enable"
 
-systemctl start mongod
+systemctl start mongod &>> $LOG_FILE
 validate $? "Mongodb start"
 
 sed -i 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf
 validate $? "Mongodb bind address change"
+
+systemctl restart mongod &>> $LOG_FILE
+validate $? "Mongodb restart"
