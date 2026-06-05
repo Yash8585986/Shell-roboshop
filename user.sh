@@ -65,7 +65,7 @@ validate $? "user unzip"
 npm install &>> $LOG_FILE
 validate $? "user npm install"
 
-cp user.service /etc/systemd/system/user.service &>> $LOG_FILE
+cp /$SCRIPT_DIR/user.service /etc/systemd/system/user.service &>> $LOG_FILE
 validate $? "user service file copy"
 
 systemctl daemon-reload &>> $LOG_FILE
