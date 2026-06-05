@@ -33,10 +33,17 @@ validate $? "Nodejs module enable"
 dnf install nodejs -y
 validate $? "Nodejs installation"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-validate $? "roboshop user creation"
+id roboshop &>> $LOG_FILE
 
-mkdir /app 
+if [ $id -ne 0 ]; then
+    echo "roboshop user is not present, creating now"
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "roboshop user creation"
+else
+    echo "roboshop user is already present, skipping user creation"
+fi
+
+mkdir -p /app 
 validate $? "app directory creation"
 
 
