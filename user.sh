@@ -1,6 +1,7 @@
 #!/bin/bash
 
 USERID=$(id -u)
+SCRIPT_DIR="$PWD"
 
 if [ $USERID -ne 0 ]; then
     echo "Please run the script with root user" | tee -a $LOG_FILE
