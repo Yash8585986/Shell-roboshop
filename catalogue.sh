@@ -85,3 +85,17 @@ dnf install mongodb-mongosh -y &>> $LOG_FILE
 validate $? "MongoDB shell installation"
 
 mongosh --host $MONGODB_HOST </app/db/master-data.js
+validate $? "MongoDB catalogue schema load"
+
+INDEX=$(mongosh --host $MONGODB_HOST --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+
+if [ $INDEX -le 0 ]; then
+    mongosh --host $MONGODB_HOST </app/db/master-data.js
+    validate $? "Loading products"
+else
+    echo "catalogue database is already present, skipping data load" | tee -a $LOG_FILE
+fi  
+
+
+systemctl restart catalogue
+validate $? "Restarting catalogue"
