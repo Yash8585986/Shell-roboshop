@@ -24,28 +24,28 @@ fi
 
 }
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
 validate $? "Nodejs module disable"
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>> $LOG_FILE
 validate $? "Nodejs module enable"
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 validate $? "Nodejs installation"
 
 id roboshop &>> $LOG_FILE
 
 if [ $id -ne 0 ]; then
-    echo "roboshop user is not present, creating now"
+    echo "roboshop user is not present, creating now" | tee -a $LOG_FILE
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
     validate $? "roboshop user creation"
 else
-    echo "roboshop user is already present, skipping user creation"
+    echo "roboshop user is already present, skipping user creation" | tee -a $LOG_FILE
 fi
 
-mkdir -p /app 
+mkdir -p /app &>> $LOG_FILE
 validate $? "app directory creation"
 
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip  &>> $LOG_FILE
 validate $? "catalogue zip download"
