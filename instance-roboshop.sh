@@ -13,7 +13,8 @@ do
   --security-group-ids $Sg_ID \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
   --query 'Instances[0].InstanceId' \
-  --output text )
+  --output text 
+  )
 
     if [ $instance == "frontend" ]; then
 
@@ -36,24 +37,28 @@ do
     fi
         echo "Ip Address $IP"
 
-    aws route53 change-resource-record-sets --hosted-zone-id $zone_ID --change-batch '{
-  "Comment": "Updating the A record for the main website",
-  "Changes": [
-    {
-      "Action": "UPSERT",
-      "ResourceRecordSet": {
-        "Name": "'$RECORD_NAME'",
-        "Type": "A",
-        "TTL": 1,
-        "ResourceRecords": [
-          {
-            "Value": "'$IP'"
-          }
+ aws route53 change-resource-record-sets \
+  --hosted-zone-id $zone_ID \
+   --change-batch '
+   
+   {
+        "Comment": "Updating the A record for the main website",
+            "Changes": [
+                {
+                "Action": "UPSERT",
+                "ResourceRecordSet": {
+                    "Name": "'$RECORD_NAME'",
+                    "Type": "A",
+                    "TTL": 1,
+                    "ResourceRecords": [
+                    {
+                        "Value": "'$IP'"
+                    }
+                ]
+            }
+            }
         ]
-      }
     }
-  ]
-}
-'
+    '
 
 done
