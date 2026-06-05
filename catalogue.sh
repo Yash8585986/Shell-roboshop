@@ -1,6 +1,8 @@
 #!/bin/bash
 
 USERID=$(id -u)
+SCRIPT_DIR=$PWD
+MONGODB_HOST=mongodb.ramyaboutique.shop
 
 if [ $USERID -ne 0 ]; then
     echo "Please run the script with root user" | tee -a $LOG_FILE
@@ -64,7 +66,7 @@ validate $? "catalogue unzip"
 npm install &>> $LOG_FILE
 validate $? "catalogue npm install"
 
-cp catalogue.service /etc/systemd/system/catalogue.service &>> $LOG_FILE
+cp /$SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service &>> $LOG_FILE
 validate $? "catalogue service file copy"
 
 systemctl daemon-reload &>> $LOG_FILE
@@ -75,3 +77,11 @@ validate $? "catalogue service enable"
 
 systemctl start catalogue &>> $LOG_FILE
 validate $? "catalogue service start"
+
+cp /$SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOG_FILE
+validate $? "MongoDB repo file copy"
+
+dnf install mongodb-mongosh -y &>> $LOG_FILE
+validate $? "MongoDB shell installation"
+
+mongosh --host $MONGODB_HOST </app/db/master-data.js
