@@ -55,6 +55,9 @@ validate $? "catalogue zip download"
 cd /app  &>> $LOG_FILE
 validate $? "app directory change"
 
+rm -rf /app/* &>> $LOG_FILE
+validate $? "app directory cleanup"
+
 unzip /tmp/catalogue.zip &>> $LOG_FILE
 validate $? "catalogue unzip"
 
