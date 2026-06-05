@@ -35,8 +35,10 @@ validate $? "Nodejs installation"
 
 id roboshop &>> $LOG_FILE
 
-if [ $id -ne 0 ]; then
+if [ $? -ne 0 ]; then
+
     echo "roboshop user is not present, creating now" | tee -a $LOG_FILE
+    
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
     validate $? "roboshop user creation"
 else
