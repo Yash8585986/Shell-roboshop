@@ -38,7 +38,7 @@ id roboshop &>> $LOG_FILE
 if [ $? -ne 0 ]; then
 
     echo "roboshop user is not present, creating now" | tee -a $LOG_FILE
-    
+
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
     validate $? "roboshop user creation"
 else
@@ -51,3 +51,24 @@ validate $? "app directory creation"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip  &>> $LOG_FILE
 validate $? "catalogue zip download"
+
+cd /app  &>> $LOG_FILE
+validate $? "app directory change"
+
+unzip /tmp/catalogue.zip &>> $LOG_FILE
+validate $? "catalogue unzip"
+
+npm install &>> $LOG_FILE
+validate $? "catalogue npm install"
+
+cp catalogue.service /etc/systemd/system/catalogue.service &>> $LOG_FILE
+validate $? "catalogue service file copy"
+
+systemctl daemon-reload &>> $LOG_FILE
+validate $? "systemd daemon reload"
+
+systemctl enable catalogue &>> $LOG_FILE
+validate $? "catalogue service enable"
+
+systemctl start catalogue &>> $LOG_FILE
+validate $? "catalogue service start"
