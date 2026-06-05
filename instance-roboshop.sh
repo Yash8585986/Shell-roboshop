@@ -13,10 +13,9 @@ do
   --security-group-ids $Sg_ID \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
   --query 'Instances[0].InstanceId' \
-  --output text
-    )
+  --output text )
 
-    if [ $instance = "frontend" ]; then
+    if [ $instance == "frontend" ]; then
 
          IP=$(
             aws ec2 describe-instances \
