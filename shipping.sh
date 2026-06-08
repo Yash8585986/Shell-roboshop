@@ -6,6 +6,8 @@ LOGS_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR="$PWD"
 MYSQL_HOST= mysql.ramyaboutique.shop
 
+mkdir -p $LOGS_FOLDER
+
 if [ $USERID -ne 0 ]; then
     echo "Please run the script with root or sudo"
     exit 1
