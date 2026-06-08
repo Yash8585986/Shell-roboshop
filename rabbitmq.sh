@@ -18,6 +18,9 @@ validate (){
     fi
 }
 
+mkdir -p $LOG_FOLDER
+
+
 cp /$SCRIPT_DIR/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
 validate $? "added rabbitmq repo"
 
