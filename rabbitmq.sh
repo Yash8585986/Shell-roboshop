@@ -5,7 +5,7 @@ LOG_FOLDER="/var/log/shell-scripts"
 LOG_FILE="$LOG_FOLDER/$0.sh"
 SCRIPT_DIR="$PWD"
 
-if [ $USERID -ne 0]; then
+if [ $USERID -ne 0 ]; then
     echo "Please run the script with root or sudo user "
     exit 1
 fi
