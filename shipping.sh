@@ -4,7 +4,7 @@ USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-scripts"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR="$PWD"
-MYSQL_HOST= mysql.ramyaboutique.shop
+MYSQL_HOST=mysql.ramyaboutique.shop
 
 mkdir -p $LOGS_FOLDER
 
