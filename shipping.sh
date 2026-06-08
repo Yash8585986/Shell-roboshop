@@ -55,7 +55,7 @@ validate $? "app directory cleanup"
 unzip /tmp/shipping.zip &>> $LOGS_FILE
 validate $? "shipping unzip"
 
-cd /app &>> &>> $LOGS_FILE
+cd /app  &>> $LOGS_FILE
 
 mvn clean package  &>> $LOGS_FILE
 validate $? "shipping maven build"
