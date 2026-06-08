@@ -31,7 +31,7 @@ if [ $? -ne 0 ]; then
 
     echo " Creating roboshop user"
 
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop    
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOGS_FILE   
     validate $? "roboshop user creation"
 
 else
@@ -39,35 +39,35 @@ else
 
 fi
 
-mkdir -p /app 
+mkdir -p /app &>> $LOGS_FILE
 validate $? "app directory creation"
 
 
-curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip  &>> $LOG_FILE
+curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip  &>> $LOGS_FILE
 validate $? "shipping zip download"
 
-cd /app  &>> $LOG_FILE
+cd /app  &>> $LOGS_FILE
 validate $? "app directory change"
 
-rm -rf /app/* &>> $LOG_FILE
+rm -rf /app/* &>> $LOGS_FILE
 validate $? "app directory cleanup"
 
-unzip /tmp/shipping.zip &>> $LOG_FILE
+unzip /tmp/shipping.zip &>> $LOGS_FILE
 validate $? "shipping unzip"
 
-cd /app &>> $LOG_FILE
+cd /app &>> &>> $LOGS_FILE
 
-mvn clean package  &>> $LOG_FILE
+mvn clean package  &>> $LOGS_FILE
 validate $? "shipping maven build"
 
-mv target/shipping-1.0.jar shipping.jar
+mv target/shipping-1.0.jar shipping.jar &>> $LOGS_FILE
 validate $? "moving code " 
 
 
-cp /$SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>> $LOG_FILE
+cp /$SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>> $LOGS_FILE
 validate $? "shipping service file copy"
 
-dnf install mysql -y  &>> $LOG_FILE
+dnf install mysql -y  &>> $LOGS_FILE
 validate $? "mysql install"
 
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
