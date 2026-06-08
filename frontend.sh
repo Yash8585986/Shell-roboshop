@@ -34,7 +34,7 @@ unzip /tmp/frontend.zip
 rm -rf /etc/nginx/nginx.conf
 
 cp /$SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
-VALIDATE $? "Copied our nginx conf file"
+validate $? "Copied our nginx conf file"
 
 
 
@@ -43,4 +43,4 @@ systemctl start nginx
 
 
 systemctl restart nginx
-VALIDATE $? "Restarted Nginx"
+validate $? "Restarted Nginx"
