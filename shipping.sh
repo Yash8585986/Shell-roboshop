@@ -39,7 +39,7 @@ else
 
 fi
 
-mkdir -p /app &>> $LOG_FILE
+mkdir -p /app 
 validate $? "app directory creation"
 
 
