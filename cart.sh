@@ -1,16 +1,17 @@
 #!/bin/bash
 
-cartID=$(id -u)
-SCRIPT_DIR="$PWD"
+USERID=$(id -u)
+SCRIPT_DIR=$PWD
+MONGODB_HOST=mongodb.ramyaboutique.shop
 
-if [ $cartID -ne 0 ]; then
-    echo "Please run the script with root cart" | tee -a $LOG_FILE
+if [ $USERID -ne 0 ]; then
+    echo "Please run the script with root user" | tee -a $LOG_FILE
     exit 1
     
 fi
 
-LOG_FOLDER="/var/logs/shell-cart"
-LOG_FILE="/var/logs/shell-cart/$0.log"
+LOG_FOLDER="/var/logs/shell-mongodb"
+LOG_FILE="/var/logs/shell-mongodb/$0.log"
 
 mkdir -p $LOG_FOLDER
 
@@ -38,12 +39,12 @@ id roboshop &>> $LOG_FILE
 
 if [ $? -ne 0 ]; then
 
-    echo "roboshop cart is not present, creating now" | tee -a $LOG_FILE
+    echo "roboshop user is not present, creating now" | tee -a $LOG_FILE
 
-    cartadd --system --home /app --shell /sbin/nologin --comment "roboshop system cart" roboshop
-    validate $? "roboshop cart creation"
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "roboshop user creation"
 else
-    echo "roboshop cart is already present, skipping cart creation" | tee -a $LOG_FILE
+    echo "roboshop user is already present, skipping user creation" | tee -a $LOG_FILE
 fi
 
 mkdir -p /app &>> $LOG_FILE
@@ -76,5 +77,4 @@ validate $? "cart service enable"
 
 systemctl start cart &>> $LOG_FILE
 validate $? "cart service start"
-
 
