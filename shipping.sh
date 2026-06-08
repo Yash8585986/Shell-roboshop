@@ -70,9 +70,17 @@ validate $? "shipping service file copy"
 dnf install mysql -y  &>> $LOGS_FILE
 validate $? "mysql install"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
+mysql -h $MYSQL_HOST -u root -pRoboShop@1 -e "use cities"
+
+if [ $? -ne 0 ]; then
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>> $LOGS_FILE
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql  &>> $LOGS_FILE
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $LOGS_FILE
+    validate $? "loaded data into mysql"
+
+else
+    echo "data already loaded..skipping"
+fi
 
 
 systemctl daemon-reload &>> $LOGS_FILE
