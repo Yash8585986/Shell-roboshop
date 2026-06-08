@@ -75,11 +75,11 @@ mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
 
 
-systemctl daemon-reload &>> $LOG_FILE
+systemctl daemon-reload &>> $LOGS_FILE
 validate $? "systemd daemon reload"
 
-systemctl enable shipping &>> $LOG_FILE
+systemctl enable shipping &>> $LOGS_FILE
 validate $? "shipping service enable"
 
-systemctl start shipping &>> $LOG_FILE
+systemctl start shipping &>> $LOGS_FILE
 validate $? "shipping service start"
