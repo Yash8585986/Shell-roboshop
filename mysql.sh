@@ -12,12 +12,14 @@ fi
 mkdir -p $LOGS_FOLDER
 
 validate(){
-if [$1 -ne 0]; then
-    echo "$2 installation failed" | tee -a $LOGS_FILE
+
+if [ $1 -ne 0 ]; then
+    echo "$2..failure" | tee -a $LOG_FILE
     exit 1
 else
-    echo "$2 installation successful" | tee -a $LOGS_FILE
+    echo "$2..success" | tee -a $LOG_FILE
 fi
+
 }
 
 dnf install mysql-server -y &>> $LOGS_FILE
