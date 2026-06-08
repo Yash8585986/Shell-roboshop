@@ -33,7 +33,7 @@ unzip /tmp/frontend.zip
 
 rm -rf /etc/nginx/nginx.conf
 
-cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
+cp /$SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
 VALIDATE $? "Copied our nginx conf file"
 
 
