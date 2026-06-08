@@ -5,7 +5,7 @@ LOG_FOLDER="/var/log/shell-roboshop"
 LOG_FILE="$LOG_FOLDER/$0.log"
 
 
-if []; then
+if [ $? -ne 0 ]; then
     echo "Please try with root user"
     exit 1
 fi
